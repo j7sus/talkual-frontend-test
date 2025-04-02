@@ -1,0 +1,41 @@
+/* assets/css/global.css */
+
+@font-face {
+    font-family: 'Recoleta';
+    src: url('/fonts/Recoleta/Recoleta-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Recoleta';
+    src: url('/fonts/Recoleta/Recoleta-Bold.woff2') format('woff2'),
+         url('/fonts/Recoleta/Recoleta-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  :root {
+    --font-primary: 'Recoleta', serif;
+    --font-secondary: -apple-system, BlinkMacSystemFont, sans-serif;
+    --color-beige-primary: #fff9e6;
+    --color-beige-secondary: #fff2c2;
+    --color-green-primary: #daef52;
+    --color-green-secondary: #008008;
+    --color-green-tertiary: #002423;
+    --color-green-quaternary: #e5f8c4;
+    --color-orange-primary: #f3a690;
+    --color-red-primary: #dc362e;
+    --color-gray-primary: #002423;
+    --color-gray-secondary: #c4c4c4;
+    --color-blue-primary: hsl(42, 68%, 52%);
+    --color-white-primary: #fff;
+  }
+  
+  body {
+    font-family: var(--font-primary);
+    background-color: var(--color-beige-primary);
+    color: var(--color-gray-primary);
+  }
