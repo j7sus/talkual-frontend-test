@@ -19,29 +19,33 @@ const getTypeBadgeClass = (type: string) => {
 </script>
 
 <template>
-  <div class="d-flex justify-content-between align-items-start">
+  <div class="cardOrder p-1">
     <div>
-      <h5 class="mb-2">Order ID: {{ props.order.id }}</h5>
       <div class="mb-1">
-        <strong>sku:</strong>
+        <strong>sku: </strong>
+        <div class="text-uppercase">
         {{
           props.order.attributes.order_items?.data[0]?.attributes?.sku || "N/A"
         }}
+        </div>
       </div>
+
       <div class="mb-1">
-        <strong>type:</strong>
+        <strong>type: </strong>
         <span>
           {{ props.order.attributes.type }}
         </span>
       </div>
+
       <div class="mb-1">
-        <strong>quantity:</strong>
+        <strong>quantity: </strong>
         {{
           props.order.attributes.order_items?.data[0]?.attributes?.quantity || 0
         }}
       </div>
+
       <div class="mb-1">
-        <strong>firstname:</strong>
+        <strong>firstname: </strong>
         {{
           props.order.attributes.order_meta?.data?.attributes
             ?.shipping_firstname || "N/A"

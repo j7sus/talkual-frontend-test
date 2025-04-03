@@ -1,63 +1,67 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import type { OrderListResponse, Order } from "~/types";
+import OrderDetail from "~/pages/orders/OrderDetail.vue";
+import Pagination from "~/pages/orders/Pagination.vue";
+
 definePageMeta({
   middleware: "auth",
 });
 
-import type { OrderListResponse, Order } from "~/types";
-import OrderDetail from "~/pages/orders/OrderDetail.vue";
-
 const { find } = useStrapi();
 
-const { data } = await find<OrderListResponse>("orders", {
-  populate: ["order_items", "order_meta"],
-  filters: {
-    type: {},
-  },
-});
-
-const selectedType = ref<string>("");
-const loading = ref<boolean>(false); //  Define 'loading' ref
+const selectedType = ref<string>(""); // Inicializa como cadena vacía
+const loading = ref<boolean>(false);
 const orders = ref<OrderListResponse>({ data: [] });
+
 const currentPage = ref<number>(1);
 const totalPages = ref<number>(0);
-const pageSize = 10;
+const pageSize = 2;
 
-const fetchOrders = async (page: number = 1, type: string = "all") => {
-  loading.value = true; // Set loading to true before fetching
-  currentPage.value = page;
+const fetchOrders = async ({
+  page = 1,
+  type = "all",
+}: { page?: number; type?: string } = {}) => {
+  loading.value = true; // Set loading
+
   try {
     const filters: Record<string, any> = {};
-    if (type !== "all") {
-      filters.type = { eq: type };
+    if (type === "normal") {
+      filters.type = { $eq: "normal" };
+    } else if (type === "donation") {
+      filters.type = { $eq: "donation" };
     }
 
     const response = await find<OrderListResponse>("orders", {
       populate: ["order_items", "order_meta"],
-      filters: filters,
+      filters: type !== "all" ? filters : undefined,
+
       pagination: {
         page: page,
         pageSize: pageSize,
       },
     });
+
     orders.value = response;
+    currentPage.value = page;
     totalPages.value = response.meta?.pagination?.totalPages || 0;
   } catch (error: any) {
     console.error("Error fetching orders:", error);
     orders.value = { data: [] };
     totalPages.value = 0;
   } finally {
-    loading.value = false; // Set loading to false after fetching
+    loading.value = false; // Set loading después del fetch
   }
 };
 
-fetchOrders();
+fetchOrders({ page: 1, type: "all" });
 
 const handleDonate = (order: Order) => {
   console.log("Donate to order:", order);
 };
 
-const changePage = (page: number) => {
-  fetchOrders(page, selectedType.value);
+const handlePageChange = (newPage: number) => {
+  fetchOrders({ page: newPage, type: selectedType.value });
 };
 </script>
 
@@ -67,17 +71,17 @@ const changePage = (page: number) => {
     <!-- Write rest of the code here -->
 
     <div class="card" style="background-color: var(--color-beige-primary)">
-      <div class="card-header">
+      <div class="card-header filters">
         <!-- Filters -->
-        <div class="col-md-2">
         <label for="typeFilter" class="form-label">Filters:</label>
+        <div class="col-md-2">
           <select
             max-width="100px"
             style="background-color: var(--color-green-primary)"
             id="typeFilter"
             class="form-select"
             v-model="selectedType"
-            @change="fetchOrders"
+            @change="fetchOrders({ page: newPage, type: selectedType.value })"
           >
             <option value="" disabled>Select type</option>
             <option value="all">All</option>
@@ -87,9 +91,8 @@ const changePage = (page: number) => {
         </div>
       </div>
 
-      <div class="col-6 offset-3">
-        <!--   Listado de Pedidos  -->
-
+      <!--   Listado de Pedidos  -->
+      <div class="col-12">
         <div class="card-body">
           <div>
             <!-- Estado de Carga -->
@@ -117,6 +120,13 @@ const changePage = (page: number) => {
           </div>
         </div>
       </div>
+
+      <!--   Paginación  -->
+      <Pagination
+        :currentPage="currentPage"
+        :totalPages="totalPages"
+        @pageChange="handlePageChange"
+      />
     </div>
   </section>
 </template>

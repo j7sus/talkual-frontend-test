@@ -44,6 +44,7 @@
     background-color: var(--color-green-primary);
     border-color: var(--color-green-primary);
     border: none;
+    justify-items: center;
   }
 
   .btn-primary:hover {
@@ -61,9 +62,19 @@
   }
 
   .cardOrder {
-    max-width: 400px;
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .list-group-item {
     background-color: var(--color-green-quaternary);
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    gap: 20px;
   }
