@@ -1,7 +1,7 @@
 /* assets/css/global.css */
 
 @font-face {
-    font-family: 'Recoleta';
+    font-family: 'Recoleta-Regular';
     src: url('/fonts/Recoleta/Recoleta-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
@@ -9,7 +9,7 @@
   }
   
   @font-face {
-    font-family: 'Recoleta';
+    font-family: 'Recoleta-Bold';
     src: url('/fonts/Recoleta/Recoleta-Bold.woff2') format('woff2'),
          url('/fonts/Recoleta/Recoleta-Bold.otf') format('opentype');
     font-weight: 700;
@@ -38,4 +38,32 @@
     font-family: var(--font-primary);
     background-color: var(--color-beige-primary);
     color: var(--color-gray-primary);
+  }
+
+  .btn-primary {
+    background-color: var(--color-green-primary);
+    border-color: var(--color-green-primary);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-green-primary);
+    border-color: var(--color-green-secondary);
+    transform: scale(1.05);
+    color: var( --color-green-tertiary);
+    border: none;
+  }
+
+
+  .btn {
+    color: var( --color-green-tertiary);
+    border: none;
+  }
+
+  .cardOrder {
+    max-width: 400px;
+  }
+
+  .list-group-item {
+    background-color: var(--color-green-quaternary);
   }
